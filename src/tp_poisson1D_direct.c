@@ -6,6 +6,8 @@
 /******************************************/
 #include "lib_poisson1D.h"
 
+
+
 #define TRF 0  /* Use LAPACK dgbtrf for LU factorization */
 #define TRI 1  /* Use custom tridiagonal LU factorization */
 #define SV 2   /* Use LAPACK dgbsv (all-in-one solver) */
@@ -69,7 +71,7 @@ int main(int argc,char *argv[])
   write_vec(X, &la, "X_grid.dat");
 
   /* Set up band storage parameters for tridiagonal matrix */
-  kv=1;             /* Number of superdiagonals */
+  kv = 1;              /* Number of superdiagonals */
   ku=1;             /* Number of superdiagonals in original matrix */
   kl=1;             /* Number of subdiagonals */
   lab=kv+kl+ku+1;   /* Leading dimension of band storage */
@@ -107,7 +109,20 @@ int main(int argc,char *argv[])
   /* Alternative: solve directly using dgbsv */
   if (IMPLEM == SV) {
     // TODO : use dgbsv
+     ipiv = (int *) calloc(la, sizeof(int));
+
+    dgbsv_(&la, &kl, &ku, &NRHS,
+          AB, &lab,
+          ipiv,
+          RHS, &la,
+          &info);
+
+  if (info != 0) {
+    printf("\n INFO DGBSV = %d\n", info);
   }
+  }
+
+
 
   /* Write results to files */
   write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "LU.dat");  /* LU factors */
