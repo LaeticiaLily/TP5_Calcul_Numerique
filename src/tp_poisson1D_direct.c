@@ -108,7 +108,6 @@ int main(int argc,char *argv[])
 
   /* Alternative: solve directly using dgbsv */
   if (IMPLEM == SV) {
-    // TODO : use dgbsv
      ipiv = (int *) calloc(la, sizeof(int));
 
     dgbsv_(&la, &kl, &ku, &NRHS,

@@ -82,4 +82,4 @@ run_tpPoisson1D_direct:
 	bin/tpPoisson1D_direct 2
 
 clean:
-	rm *.o bin/*
+	rm -f *.o bin/*
